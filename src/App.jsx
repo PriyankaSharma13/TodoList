@@ -1,4 +1,4 @@
-import { useState } from "react";
+
 import "./App.css";
 // import SinglePage from "./singlePage.jsx";
 import TodoList from "./TodoList/todolist";
@@ -10,6 +10,7 @@ function App() {
     <div>
       {/* <SinglePage /> */}
       <TodoList />
+   
     </div>
   );
 }
