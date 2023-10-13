@@ -1,65 +1,87 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import pen from "../assets/pen.png";
 import plus from "../assets/plus.png";
 import "./todolist.css";
 
 //  ------------Current time show  -----
-let time = new Date();
-const showTime =
-  time.getHours() + ":" + time.getMinutes() + ":" + time.getSeconds();
+
 
 const TodoList = () => {
   const [todos, setTodos] = useState([]);
   const [inputValue, setInputValue] = useState("");
-  const [checked, setChecked] = useState(false);
-  const [isEdit, setIsEdit] = useState(null)
-  const [toggleSubmit, setToggleSubmit] = useState(true)
+  const [isEdit,setIsEdit] = useState(null)
+  const [currentTime, setCurrentTime] = useState("")
 
-  const handleInput = (e) => {
+  // const showTime = () => {
+  //   let time = new Date();
+  //   return(
+  //     time.getHours() + ":" + time.getMinutes() + ":" + time.getSeconds()
+  //   );
+      
+  // };
+  useEffect(() => {
+    const interval = setInterval(() => {
+      const time = new Date();
+      setCurrentTime(
+        time.getHours() + ":" + time.getMinutes() + ":" + time.getSeconds()
+      );
+    }, 1000);
+
+    return () => clearInterval(interval);
+  }, []);
+  
+    const handleInput = (e) => {
     setInputValue(e.target.value);
   };
 
   const handleAddButton = () => {
+    if (inputValue.trim() === '') return;
 
-    setTodos([
-      ...todos,
-      { text: inputValue, id: todos.length + 1, currentTime: showTime, isChecked: checked, complete: false },
-    ]);
-    setInputValue("");
+    if (isEdit === null) {
+      setTodos([...todos, 
+        { 
+          text: inputValue, 
+          id:todos.length + 1,
+           currentTime: currentTime, 
+           completed: false  
+          }
+        ]);
+    } else {
+      todos[isEdit].text = inputValue;
+      setTodos([...todos]);
+      setIsEdit(null);
+    }
 
-
+    setInputValue('');
   };
 
-  const handleCheckBox = () => {
+  const toggleCompleted =(id) =>{
 
-
-    setChecked(!checked);
-    // setChecked(updatedChecked)
-
-  };
-
-  const handleEditButton = (id) => {
-
-    const findTodo = todos.find((todo) => 
-      todo.id === id
+    setTodos((checked) =>
+    checked.map((todo) =>
+      todo.id === id ? { ...todo, completed: !todo.completed } : todo
     )
-
-    setToggleSubmit(false)
-
-    setInputValue(findTodo.text)
-
-    setIsEdit(id)
-
-   
-    // console.log("findTodo")
-
-  };
-
+  );
+    
+  }
+  
+ const handleEditButton =(id) => {
+  console.log("hii")
+  const index = todos.findIndex((todo) => todo.id === id)
+  setInputValue(todos[index].text);
+    setIsEdit(index);
+ }
 
   const handleDeleteButton = (id) => {
     const remove = todos.filter((todo) => todo.id !== id);
     setTodos(remove);
     // console.log(todos);
+  };
+
+
+  const handleDeleteAll = () => {
+    
+    setTodos([]);
   };
   return (
     <>
@@ -79,32 +101,26 @@ const TodoList = () => {
           <button
             type="submit"
             className="todo-check"
-            onClick={handleAddButton}
+            onClick={ handleAddButton}
           >
-            {
-              toggleSubmit ? <img src={plus} width={"20px"} height={"20px"} alt="" />
-                : <img src={pen} width={"20px"} height={"20px"} alt="" />
-            }
+             <img src={isEdit !== null ? pen : plus} width={"20px"} height={"20px"} alt="" />
+           
 
           </button>
         </section>
         <div className="card-container">
-          {todos?.map((todo, index) => (
+          {todos.map((todo) => (
 
-            <div className="todo-card" key={index} >
-               {/* style={{ textDecoration: index.done ? "line-through" : null }} */}
+            <div className={`todo-card ${todo.completed ? 'line-through' : ''}`} key={todo.id} >
+ 
               <input
                 type="checkbox"
-                onChange={() => handleCheckBox(todo.id)}
-                value={checked.checked}
-                checked={checked}
+                onChange={() => toggleCompleted(todo.id)}
+                checked={todo.completed}
                 className="check-todo"
-                // defaultChecked={index.done}
-             
+                >
 
-              ></input>
-
-              {/* <span className={` ${checked?"todo-card-text":""}`}>{todo.text}</span> */}
+              </input>
               <span className="todo-card-text">{todo.text}</span>
               <span className="todo-current-time">{todo.currentTime}</span>
 
@@ -127,23 +143,12 @@ const TodoList = () => {
             </div>
           ))}
         </div>
+        <button className="delete-all-button" onClick={handleDeleteAll}>
+          Delete All
+        </button>
       </article>
     </>
   );
 }
 export default TodoList;
 
-// function secondsToHMS(seconds) {
-//   // Calculate hours, minutes, and seconds
-//   const hours = Math.floor(seconds / 3600);
-//   const remainingSeconds = seconds % 3600;
-//   const minutes = Math.floor(remainingSeconds / 60);
-//   const remainingSecondsFinal = remainingSeconds % 60;
-
-//   // Pad single-digit minutes and seconds with leading zeros
-//   const paddedMinutes = String(minutes).padStart(2, "0");
-//   const paddedSeconds = String(remainingSecondsFinal).padStart(2, "0");
-
-//   // Return the formatted time as HH:MM:SS
-//   return `${hours}:${paddedMinutes}:${paddedSeconds}`;
-// }

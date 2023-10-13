@@ -129,7 +129,6 @@ body{
     padding: 5px 15px;
     text-align: center;
     top: 5px;
-    margin-bottom: 10px;
     cursor: pointer;
     color: #4e4545;
     border: none;
@@ -146,6 +145,18 @@ body{
     color: rgb(144, 142, 142);
     text-decoration:  line-through;
   }
+
+.delete-all-button{
+  margin: 20px auto;
+  padding: 10px 20px;
+  text-align: center;
+  display: block;
+  background: linear-gradient(270deg, #00dbde80 20%, #fc00ff99 50%);
+  cursor: pointer;
+  color: #4e4545;
+  border: none;
+  
+}
 
   @media (max-width: 500px) {
     .todo-card-text {
