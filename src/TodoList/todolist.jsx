@@ -26,6 +26,8 @@ const TodoList = () => {
     return () => clearInterval(interval);
   }, []);
   
+
+  
     const handleInput = (e) => {
     setInputValue(e.target.value);
   };
