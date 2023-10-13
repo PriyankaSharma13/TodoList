@@ -3,7 +3,7 @@ import pen from "../assets/pen.png";
 import plus from "../assets/plus.png";
 import "./todolist.css";
 
-//  ------------Current time show  -----
+
 
 
 const TodoList = () => {
@@ -12,13 +12,9 @@ const TodoList = () => {
   const [isEdit,setIsEdit] = useState(null)
   const [currentTime, setCurrentTime] = useState("")
 
-  // const showTime = () => {
-  //   let time = new Date();
-  //   return(
-  //     time.getHours() + ":" + time.getMinutes() + ":" + time.getSeconds()
-  //   );
-      
-  // };
+
+
+//  ------------show cureent Time  -----
   useEffect(() => {
     const interval = setInterval(() => {
       const time = new Date();
@@ -35,8 +31,7 @@ const TodoList = () => {
   };
 
   const handleAddButton = () => {
-    if (inputValue.trim() === '') return;
-
+    
     if (isEdit === null) {
       setTodos([...todos, 
         { 
@@ -75,7 +70,7 @@ const TodoList = () => {
   const handleDeleteButton = (id) => {
     const remove = todos.filter((todo) => todo.id !== id);
     setTodos(remove);
-    // console.log(todos);
+   
   };
 
 
@@ -143,6 +138,7 @@ const TodoList = () => {
             </div>
           ))}
         </div>
+       
         <button className="delete-all-button" onClick={handleDeleteAll}>
           Delete All
         </button>

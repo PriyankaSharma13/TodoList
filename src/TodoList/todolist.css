@@ -64,7 +64,10 @@ body{
 
   @media (max-width: 760px) {
     .do-input1 {
-      width: 80%; 
+      width: 80%;
+    }
+    .todo-check {
+      left: 0;
     }
   }
   .todo-check {
@@ -135,9 +138,6 @@ body{
 
   } 
 
-  .todo-card-text{
-      margin-left: 20px;
-  }
   .check-todo{
     margin-left: 20px;
   }
@@ -160,7 +160,21 @@ body{
 
   @media (max-width: 500px) {
     .todo-card-text {
+      font-size: 14px;
+    }
+    .check-todo {
       margin-left: 10px;
     }
-
+    .todo-Edit {
+      padding: 5px 10px;
+    }
+    .todo-Delete {
+      padding: 5px 10px;
+    }
+  }
+  
+  @media (max-width: 320px) {
+    .todo-card-text {
+      font-size: 12px;
+    }
   }
